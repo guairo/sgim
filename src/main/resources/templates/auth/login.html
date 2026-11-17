@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/layout :: head('Ingreso')}"></head>
+<body>
+<div class="login-box card shadow">
+    <div class="card-body">
+        <h4 class="text-center mb-3"><i class="bi bi-boxes"></i> SGIM</h4>
+        <p class="text-center text-muted small">Sistema de Gestion para Inventario Municipal</p>
+        <div th:if="${param.error}" class="alert alert-danger py-2">Credenciales invalidas</div>
+        <div th:if="${param.logout}" class="alert alert-info py-2">Sesion cerrada</div>
+        <form th:action="@{/login}" method="post">
+            <div class="mb-3">
+                <label class="form-label">Usuario</label>
+                <input type="text" name="username" class="form-control" required autofocus>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Contrasena</label>
+                <input type="password" name="password" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+        </form>
+    </div>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

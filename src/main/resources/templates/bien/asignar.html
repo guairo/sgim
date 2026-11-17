@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/layout :: head('Asignar bien')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div class="container mt-3">
+    <h3>Asignar bien: <span th:text="${bien.placa}"></span></h3>
+    <form th:action="@{/bienes/asignar/{id}(id=${bien.id})}" method="post" class="row g-3 mt-2">
+        <div class="col-md-8">
+            <label>Funcionario *</label>
+            <select name="funcionarioId" class="form-select" required>
+                <option th:each="f : ${funcionarios}" th:value="${f.id}"
+                        th:text="${f.documento + ' - ' + f.nombreCompleto}"></option>
+            </select>
+        </div>
+        <div class="col-12">
+            <button class="btn btn-primary">Asignar</button>
+            <a th:href="@{/bienes}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

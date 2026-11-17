@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/layout :: head('No encontrado')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div class="container mt-5 text-center">
+    <h1 class="display-1">404</h1>
+    <p class="lead" th:text="${mensaje} ?: 'Recurso no encontrado'"></p>
+    <a th:href="@{/dashboard}" class="btn btn-primary">Volver al dashboard</a>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body></html>

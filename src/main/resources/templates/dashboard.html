@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/layout :: head('Dashboard')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div class="container mt-4">
+    <h3 class="mb-4">Panel de control</h3>
+    <div class="row g-3">
+        <div class="col-md-3">
+            <div class="card card-kpi success">
+                <div class="card-body">
+                    <div class="text-muted">Disponibles</div>
+                    <div class="num text-success" th:text="${disponibles}">0</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card card-kpi">
+                <div class="card-body">
+                    <div class="text-muted">Asignados</div>
+                    <div class="num text-primary" th:text="${asignados}">0</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card card-kpi warning">
+                <div class="card-body">
+                    <div class="text-muted">En mantenimiento</div>
+                    <div class="num text-warning" th:text="${mantenimiento}">0</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card card-kpi danger">
+                <div class="card-body">
+                    <div class="text-muted">Dados de baja</div>
+                    <div class="num text-danger" th:text="${bajas}">0</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-4">
+        <p class="text-muted">Bienvenido al Sistema de Gestion para Inventario Municipal.</p>
+    </div>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

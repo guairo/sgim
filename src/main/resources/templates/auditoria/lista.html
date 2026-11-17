@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/layout :: head('Auditoria')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div class="container mt-3">
+    <h3>Registro de auditoria</h3>
+    <table class="table table-striped table-sm mt-3">
+        <thead><tr><th>Fecha</th><th>Usuario</th><th>Accion</th><th>Entidad</th><th>Id</th><th>Detalle</th></tr></thead>
+        <tbody>
+        <tr th:each="a : ${registros.content}">
+            <td th:text="${#temporals.format(a.fecha,'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${a.usuario}"></td>
+            <td><span class="badge bg-secondary" th:text="${a.accion}"></span></td>
+            <td th:text="${a.entidad}"></td>
+            <td th:text="${a.entidadId}"></td>
+            <td th:text="${a.detalle}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <nav th:if="${registros.totalPages > 1}">
+        <ul class="pagination">
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, registros.totalPages - 1)}"
+                th:classappend="${i == registros.number} ? 'active'">
+                <a class="page-link" th:href="@{/auditoria(page=${i})}" th:text="${i+1}"></a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body></html>

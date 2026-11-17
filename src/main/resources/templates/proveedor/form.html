@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/layout :: head('Proveedor')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div class="container mt-3">
+    <h3 th:text="${proveedor.id == null} ? 'Nuevo proveedor' : 'Editar proveedor'"></h3>
+    <form th:action="@{/proveedores/guardar}" th:object="${proveedor}" method="post" class="row g-3">
+        <input type="hidden" th:field="*{id}">
+        <div class="col-md-3"><label>NIT *</label><input th:field="*{nit}" class="form-control" required></div>
+        <div class="col-md-9"><label>Razon social *</label><input th:field="*{razonSocial}" class="form-control" required></div>
+        <div class="col-md-4"><label>Telefono</label><input th:field="*{telefono}" class="form-control"></div>
+        <div class="col-md-4"><label>Correo</label><input type="email" th:field="*{correo}" class="form-control"></div>
+        <div class="col-md-12"><label>Direccion</label><input th:field="*{direccion}" class="form-control"></div>
+        <div class="col-md-2 form-check mt-4">
+            <input class="form-check-input" type="checkbox" th:field="*{activo}">
+            <label class="form-check-label">Activo</label>
+        </div>
+        <div class="col-12">
+            <button class="btn btn-primary">Guardar</button>
+            <a th:href="@{/proveedores}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body></html>

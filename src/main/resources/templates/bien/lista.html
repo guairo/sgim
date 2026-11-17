@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="es">
+<head th:replace="~{fragments/layout :: head('Bienes')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: mensaje}"></div>
+<div class="container mt-3">
+    <div class="d-flex justify-content-between align-items-center">
+        <h3>Bienes</h3>
+        <a th:href="@{/bienes/nuevo}" class="btn btn-primary"
+           sec:authorize="hasAnyRole('ADMIN','OPERADOR')">
+            <i class="bi bi-plus-lg"></i> Nuevo</a>
+    </div>
+    <form th:action="@{/bienes}" method="get" class="row g-2 my-3">
+        <div class="col-md-4">
+            <input type="text" name="q" th:value="${q}" class="form-control"
+                   placeholder="Buscar por placa, nombre o serial">
+        </div>
+        <div class="col-auto"><button class="btn btn-outline-primary">Buscar</button></div>
+    </form>
+    <table class="table table-striped table-sm">
+        <thead><tr>
+            <th>Placa</th><th>Nombre</th><th>Categoria</th><th>Dependencia</th>
+            <th>Funcionario</th><th>Estado</th><th>Valor</th><th>Acciones</th>
+        </tr></thead>
+        <tbody>
+        <tr th:each="b : ${bienes.content}">
+            <td th:text="${b.placa}"></td>
+            <td th:text="${b.nombre}"></td>
+            <td th:text="${b.categoria.nombre}"></td>
+            <td th:text="${b.dependencia.nombre}"></td>
+            <td th:text="${b.funcionario != null} ? ${b.funcionario.nombreCompleto} : '-'"></td>
+            <td>
+                <span class="badge bg-success" th:if="${b.estado.name() == 'DISPONIBLE'}">Disponible</span>
+                <span class="badge bg-primary" th:if="${b.estado.name() == 'ASIGNADO'}">Asignado</span>
+                <span class="badge bg-warning" th:if="${b.estado.name() == 'EN_MANTENIMIENTO'}">Mantenim.</span>
+                <span class="badge bg-danger"  th:if="${b.estado.name() == 'BAJA'}">Baja</span>
+            </td>
+            <td th:text="${#numbers.formatDecimal(b.valorCompra,1,'POINT',2,'COMMA')}"></td>
+            <td class="text-nowrap">
+                <a th:href="@{/bienes/editar/{id}(id=${b.id})}" class="btn btn-sm btn-outline-secondary"
+                   sec:authorize="hasAnyRole('ADMIN','OPERADOR')"><i class="bi bi-pencil"></i></a>
+                <a th:href="@{/bienes/asignar/{id}(id=${b.id})}" class="btn btn-sm btn-outline-primary"
+                   th:if="${b.estado.name() == 'DISPONIBLE'}"
+                   sec:authorize="hasAnyRole('ADMIN','OPERADOR')"><i class="bi bi-person-check"></i></a>
+                <form th:action="@{/bienes/liberar/{id}(id=${b.id})}" method="post" class="d-inline"
+                      th:if="${b.estado.name() == 'ASIGNADO'}"
+                      sec:authorize="hasAnyRole('ADMIN','OPERADOR')">
+                    <button class="btn btn-sm btn-outline-warning"><i class="bi bi-arrow-return-left"></i></button>
+                </form>
+                <form th:action="@{/bienes/eliminar/{id}(id=${b.id})}" method="post" class="d-inline"
+                      sec:authorize="hasRole('ADMIN')"
+                      onsubmit="return confirm('Eliminar bien?');">
+                    <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                </form>
+            </td>
+        </tr>
+        <tr th:if="${bienes.empty}"><td colspan="8" class="text-center text-muted">Sin registros</td></tr>
+        </tbody>
+    </table>
+    <nav th:if="${bienes.totalPages > 1}">
+        <ul class="pagination">
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, bienes.totalPages - 1)}"
+                th:classappend="${i == bienes.number} ? 'active'">
+                <a class="page-link" th:href="@{/bienes(page=${i},q=${q})}" th:text="${i+1}"></a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

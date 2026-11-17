@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/layout :: head('Categoria')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div class="container mt-3">
+    <h3 th:text="${categoria.id == null} ? 'Nueva categoria' : 'Editar categoria'"></h3>
+    <form th:action="@{/categorias/guardar}" th:object="${categoria}" method="post" class="row g-3">
+        <input type="hidden" th:field="*{id}">
+        <div class="col-md-6"><label>Nombre *</label><input th:field="*{nombre}" class="form-control" required></div>
+        <div class="col-md-3"><label>Vida util (meses)</label><input type="number" th:field="*{vidaUtilMeses}" class="form-control"></div>
+        <div class="col-12"><label>Descripcion</label><textarea th:field="*{descripcion}" class="form-control"></textarea></div>
+        <div class="col-md-2 form-check mt-4">
+            <input class="form-check-input" type="checkbox" th:field="*{activa}">
+            <label class="form-check-label">Activa</label>
+        </div>
+        <div class="col-12">
+            <button class="btn btn-primary">Guardar</button>
+            <a th:href="@{/categorias}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body></html>

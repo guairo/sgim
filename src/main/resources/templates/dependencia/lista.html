@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="es">
+<head th:replace="~{fragments/layout :: head('Dependencias')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: mensaje}"></div>
+<div class="container mt-3">
+    <div class="d-flex justify-content-between"><h3>Dependencias</h3>
+        <a th:href="@{/dependencias/nuevo}" class="btn btn-primary"
+           sec:authorize="hasAnyRole('ADMIN','OPERADOR')">Nuevo</a></div>
+    <table class="table table-striped table-sm mt-3">
+        <thead><tr><th>Id</th><th>Nombre</th><th>Ubicacion</th><th>Activa</th><th>Acciones</th></tr></thead>
+        <tbody>
+        <tr th:each="d : ${dependencias}">
+            <td th:text="${d.id}"></td>
+            <td th:text="${d.nombre}"></td>
+            <td th:text="${d.ubicacion}"></td>
+            <td><i class="bi" th:classappend="${d.activa} ? 'bi-check-circle text-success' : 'bi-x-circle text-danger'"></i></td>
+            <td class="text-nowrap">
+                <a th:href="@{/dependencias/editar/{id}(id=${d.id})}" class="btn btn-sm btn-outline-secondary"
+                   sec:authorize="hasAnyRole('ADMIN','OPERADOR')"><i class="bi bi-pencil"></i></a>
+                <form th:action="@{/dependencias/eliminar/{id}(id=${d.id})}" method="post" class="d-inline"
+                      sec:authorize="hasRole('ADMIN')" onsubmit="return confirm('Eliminar?');">
+                    <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body></html>

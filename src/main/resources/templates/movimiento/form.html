@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/layout :: head('Nuevo movimiento')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div class="container mt-3">
+    <h3>Nuevo movimiento</h3>
+    <form th:action="@{/movimientos/guardar}" method="post" class="row g-3">
+        <div class="col-md-3">
+            <label>Tipo *</label>
+            <select name="tipo" class="form-select" required>
+                <option th:each="t : ${tipos}" th:value="${t}" th:text="${t}"></option>
+            </select>
+        </div>
+        <div class="col-md-9">
+            <label>Bien *</label>
+            <select name="bienId" class="form-select" required>
+                <option th:each="b : ${bienes}" th:value="${b.id}" th:text="${b.placa + ' - ' + b.nombre}"></option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label>Dependencia origen</label>
+            <select name="dependenciaOrigenId" class="form-select">
+                <option value="">--</option>
+                <option th:each="d : ${dependencias}" th:value="${d.id}" th:text="${d.nombre}"></option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label>Dependencia destino</label>
+            <select name="dependenciaDestinoId" class="form-select">
+                <option value="">--</option>
+                <option th:each="d : ${dependencias}" th:value="${d.id}" th:text="${d.nombre}"></option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label>Funcionario origen</label>
+            <select name="funcionarioOrigenId" class="form-select">
+                <option value="">--</option>
+                <option th:each="f : ${funcionarios}" th:value="${f.id}" th:text="${f.nombreCompleto}"></option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label>Funcionario destino</label>
+            <select name="funcionarioDestinoId" class="form-select">
+                <option value="">--</option>
+                <option th:each="f : ${funcionarios}" th:value="${f.id}" th:text="${f.nombreCompleto}"></option>
+            </select>
+        </div>
+        <div class="col-12"><label>Observaciones</label><textarea name="observaciones" class="form-control"></textarea></div>
+        <div class="col-12">
+            <button class="btn btn-primary">Registrar</button>
+            <a th:href="@{/movimientos}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body></html>

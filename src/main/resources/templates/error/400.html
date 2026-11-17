@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/layout :: head('Solicitud invalida')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div class="container mt-5">
+    <div class="alert alert-warning">
+        <h4>Regla de negocio</h4>
+        <p th:text="${mensaje}"></p>
+    </div>
+    <a th:href="@{/dashboard}" class="btn btn-primary">Volver al dashboard</a>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body></html>
